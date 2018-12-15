@@ -1,0 +1,1194 @@
+@prefix : <http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062> .
+
+<http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#createsAgreementToResolve
+:createsAgreementToResolve rdf:type owl:ObjectProperty ;
+                           rdfs:subPropertyOf :outlinesAgreementFor ;
+                           rdfs:domain :treaty ;
+                           rdfs:range :conflict .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#governs
+:governs rdf:type owl:ObjectProperty ;
+         owl:inverseOf :isGovernedBy ;
+         rdfs:domain :regime ;
+         rdfs:range :structuredEntity .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#hasAsAMember
+:hasAsAMember rdf:type owl:ObjectProperty ;
+              owl:inverseOf :isMemberOf ;
+              rdfs:domain :internationalOrg ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasAsAMember ;
+                            owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                            owl:onClass :nationState
+                          ] ;
+              rdfs:range :nationState .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#hasAsAParty
+:hasAsAParty rdf:type owl:ObjectProperty ;
+             owl:inverseOf :partyTo ;
+             rdfs:domain :relationshipType ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasAsAParty ;
+                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :nationState
+                         ] ;
+             rdfs:range :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#hasPositionIn
+:hasPositionIn rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :isPartOf ;
+               rdfs:domain :person ;
+               rdfs:range :regime .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#hasRelationshipWith
+:hasRelationshipWith rdf:type owl:ObjectProperty ,
+                              owl:SymmetricProperty ;
+                     rdfs:domain :internationalPlayer ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasRelationshipWith ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :nationState
+                                 ] ;
+                     rdfs:range :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#hasTreatyWith
+:hasTreatyWith rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :hasRelationshipWith ;
+               rdf:type owl:SymmetricProperty ;
+               rdfs:domain :internationalPlayer ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasTreatyWith ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :nationState
+                           ] ;
+               rdfs:range :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#holdsPosition
+:holdsPosition rdf:type owl:ObjectProperty ;
+               rdfs:domain :person ;
+               rdfs:range :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#inConflictWith
+:inConflictWith rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :hasRelationshipWith ;
+                rdf:type owl:SymmetricProperty ;
+                rdfs:domain :internationalPlayer ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasRelationshipWith ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :nationState
+                            ] ;
+                rdfs:range :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isAllyOf
+:isAllyOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasRelationshipWith ;
+          rdf:type owl:SymmetricProperty ;
+          rdfs:domain :internationalPlayer ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :isAllyOf ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :nationState
+                      ] ;
+          rdfs:range :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isBasedOnRegion
+:isBasedOnRegion rdf:type owl:ObjectProperty ;
+                 rdfs:domain :regional ;
+                 rdfs:range <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isGovernedBy
+:isGovernedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :structuredEntity ;
+              rdfs:range :regime .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isLeaderOf
+:isLeaderOf rdf:type owl:ObjectProperty ;
+            rdfs:domain :person ;
+            rdfs:range :structuredEntity ;
+            owl:propertyChainAxiom ( :leads
+                                     :governs
+                                   ) .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isLocatedIn
+:isLocatedIn rdf:type owl:ObjectProperty ,
+                      owl:TransitiveProperty ;
+             rdfs:domain :place ;
+             rdfs:range :place .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isMemberOf
+:isMemberOf rdf:type owl:ObjectProperty ;
+            rdfs:domain :nationState ;
+            rdfs:range :internationalOrg .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isPartOf
+:isPartOf rdf:type owl:ObjectProperty ;
+          rdfs:domain :person ;
+          rdfs:range :regime .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#leads
+:leads rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf :isPartOf ;
+       rdfs:domain :person ;
+       rdfs:range :regime .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#monitors
+:monitors rdf:type owl:ObjectProperty ;
+          rdfs:domain :nonGovtOrg ;
+          rdfs:range :regime .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#operatesFromHQ
+:operatesFromHQ rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain :structuredEntity ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :operatesFromHQ ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :HQ
+                            ] ;
+                rdfs:range :HQ .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#outlinesAgreementFor
+:outlinesAgreementFor rdf:type owl:ObjectProperty ;
+                      rdfs:domain :treaty ;
+                      rdfs:range [ rdf:type owl:Class ;
+                                   owl:unionOf ( :conflict
+                                                 :convention
+                                               )
+                                 ] .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#overIssue
+:overIssue rdf:type owl:ObjectProperty ;
+           rdfs:domain :conflict ;
+           rdfs:range :issue .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#partyTo
+:partyTo rdf:type owl:ObjectProperty ;
+         rdfs:domain :internationalPlayer ;
+         rdfs:range :conflict ,
+                    :relationshipType ,
+                    :treaty .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#setsConvention
+:setsConvention rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :outlinesAgreementFor ;
+                rdfs:domain :treaty ;
+                rdfs:range :convention .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#wasRatifiedInCity
+:wasRatifiedInCity rdf:type owl:ObjectProperty ;
+                   rdfs:domain :treaty ;
+                   rdfs:range <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#atAddress
+:atAddress rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :HQ ;
+           rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#atLatitude
+:atLatitude rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :HQ ;
+            rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#atLongitude
+:atLongitude rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :HQ ;
+             rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#cameToPower
+:cameToPower rdf:type owl:DatatypeProperty ;
+             rdfs:domain :regime ;
+             rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#isNamed
+:isNamed rdf:type owl:DatatypeProperty ,
+                  owl:FunctionalProperty ;
+         rdfs:domain owl:Thing ;
+         rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#startedOn
+:startedOn rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :relationshipType ;
+           rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#vestedPowerType
+:vestedPowerType rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :regime ;
+                 rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#wasBorn
+:wasBorn rdf:type owl:DatatypeProperty ,
+                  owl:FunctionalProperty ;
+         rdfs:domain :person ;
+         rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/system/ontologies/2018/3/STG062#city
+<http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> rdf:type owl:Class ;
+                                                                  rdfs:subClassOf :place .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/3/STG062#region
+<http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> rdf:type owl:Class ;
+                                                                    rdfs:subClassOf :place .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#HQ
+:HQ rdf:type owl:Class ;
+    rdfs:subClassOf :place .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#bilateral
+:bilateral rdf:type owl:Class ;
+           rdfs:subClassOf :treaty .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#conflict
+:conflict rdf:type owl:Class ;
+          rdfs:subClassOf :relationshipType .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#convention
+:convention rdf:type owl:Class ;
+            rdfs:subClassOf :phenomenom .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#internationalOrg
+:internationalOrg rdf:type owl:Class ;
+                  rdfs:subClassOf :organization .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#internationalPlayer
+:internationalPlayer rdf:type owl:Class ;
+                     owl:disjointUnionOf ( :nationState
+                                           :nonStateActor
+                                         ) .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#issue
+:issue rdf:type owl:Class ;
+       rdfs:subClassOf :phenomenom .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#multilateral
+:multilateral rdf:type owl:Class ;
+              rdfs:subClassOf :treaty .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#nationState
+:nationState rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( :internationalPlayer
+                                                        :place
+                                                        :structuredEntity
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf :internationalPlayer ,
+                             :place ,
+                             :structuredEntity ;
+             owl:disjointWith :nonStateActor .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#nonGovtOrg
+:nonGovtOrg rdf:type owl:Class ;
+            rdfs:subClassOf :organization .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#nonStateActor
+:nonStateActor rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:unionOf ( :internationalOrg
+                                                   :opposition
+                                                 )
+                                   ] ,
+                                   [ rdf:type owl:Class ;
+                                     owl:complementOf :nationState
+                                   ] ;
+               rdfs:subClassOf :internationalPlayer .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#opposition
+:opposition rdf:type owl:Class ;
+            rdfs:subClassOf :organization .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#organization
+:organization rdf:type owl:Class ;
+              rdfs:subClassOf :structuredEntity .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#person
+:person rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#phenomenom
+:phenomenom rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#place
+:place rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#position
+:position rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#regime
+:regime rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#regional
+:regional rdf:type owl:Class ;
+          rdfs:subClassOf :internationalOrg ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :isBasedOnRegion ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region>
+                          ] .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#relationshipType
+:relationshipType rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#specialInterest
+:specialInterest rdf:type owl:Class ;
+                 rdfs:subClassOf :internationalOrg .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#structuredEntity
+:structuredEntity rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#treaty
+:treaty rdf:type owl:Class ;
+        rdfs:subClassOf :relationshipType .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Abdullah_II
+:Abdullah_II rdf:type owl:NamedIndividual ,
+                      :person ;
+             :holdsPosition :King ;
+             :isLeaderOf :Jordan ;
+             :leads :MonarchyOfKingAbdallah ;
+             :isNamed "King Abdullah II of Jordan" ;
+             :wasBorn "30 January 1962" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Africa
+:Africa rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Amman
+:Amman rdf:type owl:NamedIndividual ,
+                <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+       :isLocatedIn :Jordan .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#AmnestyInternational
+:AmnestyInternational rdf:type owl:NamedIndividual ,
+                               :nonGovtOrg ;
+                      :monitors :AssadRegime ;
+                      :atAddress """17-25 New Inn Yard
+London
+EC2A 3EA""" ;
+                      :isNamed "Amnest International" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#AmnestyIntlUK
+:AmnestyIntlUK rdf:type owl:NamedIndividual ,
+                        :HQ ;
+               :isLocatedIn :London ;
+               :atAddress """17-25 New Inn Yard
+London
+EC2A 3EA""" ;
+               :atLatitude "51° 31.4712 N" ;
+               :atLongitude "W 0° 4.7276'" ;
+               :isNamed "Amnesty International London Office" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Ankara
+:Ankara rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :Turkey .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#AntonioGuterresChairmanship
+:AntonioGuterresChairmanship rdf:type owl:NamedIndividual ,
+                                      :regime ;
+                             :governs :UnitedNations ;
+                             :operatesFromHQ :UNHeadquarters .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#AntónioGuterres
+:AntónioGuterres rdf:type owl:NamedIndividual ,
+                          :person ;
+                 :holdsPosition :Chair ;
+                 :leads :AntonioGuterresChairmanship .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#ArabLeague
+:ArabLeague rdf:type owl:NamedIndividual ,
+                     :internationalOrg ,
+                     :specialInterest .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Asia
+:Asia rdf:type owl:NamedIndividual ,
+               <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#AssadRegime
+:AssadRegime rdf:type owl:NamedIndividual ,
+                      :regime ;
+             :governs :Syria ;
+             :operatesFromHQ :SyrianPresidentialPalace .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Austria
+:Austria rdf:type owl:NamedIndividual ,
+                  :nationState ;
+         :isLocatedIn :Europe ;
+         :isMemberOf :EuropeanUnion ,
+                     :UnitedNations .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#BasharAlAssad
+:BasharAlAssad rdf:type owl:NamedIndividual ,
+                        :person ;
+               :holdsPosition :President ;
+               :leads :AssadRegime ;
+               :isNamed "Bashar Al Assad" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Belfast
+:Belfast rdf:type owl:NamedIndividual ,
+                  <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+         :isLocatedIn :UnitedKingdom ;
+         :isNamed "Belfast" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Chair
+:Chair rdf:type owl:NamedIndividual ,
+                :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Chancellor
+:Chancellor rdf:type owl:NamedIndividual ,
+                     :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#CrownPrince
+:CrownPrince rdf:type owl:NamedIndividual ,
+                      :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Damascus
+:Damascus rdf:type owl:NamedIndividual ,
+                   <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+          :isLocatedIn :Syria .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#DonaldTrump
+:DonaldTrump rdf:type owl:NamedIndividual ,
+                      :person ;
+             :holdsPosition :President ;
+             :leads :TrumpAdministration ;
+             :isNamed "Donald J. Trump" ;
+             :wasBorn "14 June 1946" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#DowningStreet
+:DowningStreet rdf:type owl:NamedIndividual ,
+                        :HQ ;
+               :isLocatedIn :London ;
+               :atAddress "10 Downing St, Westminster, London SW1A 2AA" ;
+               :atLatitude "51.5034° N" ;
+               :atLongitude "0.1276° W" ;
+               :isNamed "10 Downing Street" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#ErdoganAdministration
+:ErdoganAdministration rdf:type owl:NamedIndividual ,
+                                :regime ;
+                       :governs :Turkey ;
+                       :operatesFromHQ :TurkishPresidentialPalace ;
+                       :cameToPower "November 2002" ;
+                       :isNamed "Administration of Recep Erdogan" ;
+                       :vestedPowerType "elections" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Europe
+:Europe rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#EuropeanUnion
+:EuropeanUnion rdf:type owl:NamedIndividual ,
+                        :regional .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#FouthGenevaConvention
+:FouthGenevaConvention rdf:type owl:NamedIndividual ,
+                                :multilateral ;
+                       :setsConvention :rulesOfWar ;
+                       :wasRatifiedInCity :Geneva ;
+                       :isNamed "Geneva Convention relative to the Protection of Civilian Persons in Time of War" ;
+                       :startedOn "August 1949" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#France
+:France rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :isLocatedIn :Europe ;
+        :isMemberOf :EuropeanUnion ,
+                    :UnitedNations ;
+        :partyTo :ParisClimateAccord ,
+                 :declarationOfHumanRights ;
+        :isNamed "French Republic" ;
+        :vestedPowerType "democracy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Geneva
+:Geneva rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :Switzerland ;
+        :setsConvention :rulesOfWar ;
+        :wasRatifiedInCity :Geneva ;
+        :isNamed "Geneva" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#GoodFridayAgreement
+:GoodFridayAgreement rdf:type owl:NamedIndividual ,
+                              :bilateral ;
+                     :createsAgreementToResolve :IrishIndependence ;
+                     :hasAsAParty :IRA ,
+                                  :UnitedKingdom ;
+                     :wasRatifiedInCity :Belfast ;
+                     :isNamed "The Good Friday Agreement" ;
+                     :startedOn "April 10, 1998" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#HassanRouhani
+:HassanRouhani rdf:type owl:NamedIndividual ,
+                        :person ;
+               :holdsPosition :President ;
+               :leads :RouhaniAdministration ;
+               :isNamed "Hassan Rouhani" ;
+               :wasBorn "12 November 1948" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#IRA
+:IRA rdf:type owl:NamedIndividual ,
+              :nonStateActor ,
+              :opposition ;
+     :isNamed "Irish Republican Army" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#ISIS
+:ISIS rdf:type owl:NamedIndividual ,
+               :nonStateActor ,
+               :opposition ;
+      :isNamed "Islamic State" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Iran
+:Iran rdf:type owl:NamedIndividual ,
+               :nationState ;
+      :inConflictWith :UnitedStates ;
+      :isLocatedIn :MiddleEast ;
+      :isMemberOf :OPEC ,
+                  :UnitedNations ;
+      :partyTo :IranNuclearDeal ;
+      :isNamed "Islamic Republic of Iran" ;
+      :vestedPowerType "parliamentary democracy vetted and supervised by a theocracy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#IranNuclearCapabilities
+:IranNuclearCapabilities rdf:type owl:NamedIndividual ,
+                                  :conflict ;
+                         :hasAsAParty :Iran ,
+                                      :UnitedStates ;
+                         :isNamed "Iranian Nuclear Capabilities" ;
+                         :startedOn "November 2003"^^xsd:string .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#IranNuclearDeal
+:IranNuclearDeal rdf:type owl:NamedIndividual ,
+                          :multilateral ;
+                 :createsAgreementToResolve :IranNuclearCapabilities ;
+                 :hasAsAParty :EuropeanUnion ,
+                              :France ,
+                              :Iran ,
+                              :Russia ,
+                              :UnitedKingdom ,
+                              :UnitedStates ;
+                 :isNamed "Iran nuclear deal framework" ;
+                 :startedOn "April 2015" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#IranianPresidentialPalace
+:IranianPresidentialPalace rdf:type owl:NamedIndividual ,
+                                    :HQ ;
+                           :isLocatedIn :Tehran ;
+                           :isNamed "Iranian Presidential Palace" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#IrishIndependence
+:IrishIndependence rdf:type owl:NamedIndividual ,
+                            :conflict ;
+                   :hasAsAParty :IRA ,
+                                :UnitedKingdom ;
+                   :overIssue :independence ;
+                   :isNamed "Struggle for Irish Independence" ;
+                   :startedOn "April 1916" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Israel
+:Israel rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :inConflictWith :PLO ;
+        :isAllyOf :UnitedStates ;
+        :isLocatedIn :MiddleEast ;
+        :isNamed "State of Israel" ;
+        :vestedPowerType "democracy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Israeli-PalestinianConflict
+:Israeli-PalestinianConflict rdf:type owl:NamedIndividual ,
+                                      :conflict ;
+                             :hasAsAParty :Israel ;
+                             :overIssue :independence ,
+                                        :land ;
+                             :isNamed "Israeli-Palestinian Conflict" ;
+                             :startedOn "May 1948" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Isreai-JordanianPeaceTreaty
+:Isreai-JordanianPeaceTreaty rdf:type owl:NamedIndividual ,
+                                      :bilateral ;
+                             :hasAsAParty :Israel ,
+                                          :Jordan ;
+                             :isNamed "Wadi Araba Treaty" ;
+                             :startedOn "October 1994" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Jordan
+:Jordan rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :isLocatedIn :MiddleEast ;
+        :isMemberOf :ArabLeague ,
+                    :UnitedNations ;
+        :partyTo :ParisClimateAccord ;
+        :isNamed "Hashemite Kingdom of Jordan" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#King
+:King rdf:type owl:NamedIndividual ,
+               :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Kremlin
+:Kremlin rdf:type owl:NamedIndividual ,
+                  :HQ ;
+         :isLocatedIn :Moscow ;
+         :atAddress "Moscow, Russia, 103073" ;
+         :atLatitude "55.7520° N" ;
+         :atLongitude "37.6175° E" ;
+         :isNamed "Moscow Kremlin" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#London
+:London rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :UnitedKingdom ;
+        :isNamed "London" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#MayAdministration
+:MayAdministration rdf:type owl:NamedIndividual ,
+                            :regime ;
+                   :governs :UnitedKingdom ;
+                   :operatesFromHQ :DowningStreet ;
+                   :cameToPower "July 2016" ;
+                   :isNamed "Premiership of Theresa May" ;
+                   :vestedPowerType "parliamentary elections" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#MiddleEast
+:MiddleEast rdf:type owl:NamedIndividual ,
+                     <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#MohammadBinSalman
+:MohammadBinSalman rdf:type owl:NamedIndividual ,
+                            :person ;
+                   :holdsPosition :CrownPrince ;
+                   :leads :SaudiRoyalFamily ;
+                   :isNamed "Mohammad BinSalman" ;
+                   :vestedPowerType "31 August 1985" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#MonarchyOfKingAbdallah
+:MonarchyOfKingAbdallah rdf:type owl:NamedIndividual ,
+                                 :regime ;
+                        :governs :Jordan ;
+                        :operatesFromHQ :TheRoyalHashemiteCourt ;
+                        :cameToPower "February 1999" ;
+                        :isNamed "Monarchy of King Abdallah" ;
+                        :vestedPowerType "constitutional Monarchy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Moscow
+:Moscow rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :Russia ;
+        :isNamed "Moscow" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#NewYork
+:NewYork rdf:type owl:NamedIndividual ,
+                  <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+         :isLocatedIn :UnitedStates ;
+         :isNamed "New York City" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#NikkiHaley
+:NikkiHaley rdf:type owl:NamedIndividual ,
+                     :person ;
+            :holdsPosition :UNAmbassador .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Norway
+:Norway rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :isLocatedIn :Europe ;
+        :isMemberOf :UnitedNations ;
+        :partyTo :declarationOfHumanRights ;
+        :isNamed "Kingdom of Norway" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#OPEC
+:OPEC rdf:type owl:NamedIndividual ,
+               :specialInterest ;
+      :hasAsAMember :SaudiArabia ;
+      :operatesFromHQ :OPECSecretariat ;
+      :isNamed "Organization of the Petroleum Exporting Countries" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#OPECSecretariat
+:OPECSecretariat rdf:type owl:NamedIndividual ,
+                          :HQ ;
+                 :isLocatedIn :Vienna ;
+                 :isNamed "OPEC Secretariat" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Oslo
+:Oslo rdf:type owl:NamedIndividual ,
+               <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+      :isLocatedIn :Norway ;
+      :isNamed "Oslo" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#OsloAccords
+:OsloAccords rdf:type owl:NamedIndividual ,
+                      :bilateral ;
+             :createsAgreementToResolve :Israeli-PalestinianConflict ;
+             :hasAsAParty :Israel ,
+                          :PLO ;
+             :wasRatifiedInCity :Oslo ;
+             :isNamed "Declaration of Principles on Interim Self-Government Arrangements" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#PLO
+:PLO rdf:type owl:NamedIndividual ,
+              :nonStateActor ,
+              :opposition ;
+     :hasAsAParty :PLO ;
+     :isNamed "Palestinian Liberation Organization" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Paris
+:Paris rdf:type owl:NamedIndividual ,
+                <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+       :isLocatedIn :France ;
+       :isNamed "Paris" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#ParisClimateAccord
+:ParisClimateAccord rdf:type owl:NamedIndividual ,
+                             :multilateral ;
+                    :hasAsAParty :Israel ,
+                                 :Syria ,
+                                 :UnitedKingdom ;
+                    :overIssue :environmentalProtection ;
+                    :setsConvention :environmentalProtection ;
+                    :wasRatifiedInCity :Paris ;
+                    :startedOn "December 2015" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#President
+:President rdf:type owl:NamedIndividual ,
+                    :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#PrimeMinister
+:PrimeMinister rdf:type owl:NamedIndividual ,
+                        :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#PutinAdministration
+:PutinAdministration rdf:type owl:NamedIndividual ,
+                              :regime ;
+                     :governs :Russia ;
+                     :operatesFromHQ :Kremlin ;
+                     :cameToPower "May 2000" ;
+                     :isNamed "Administration of Vladimir Putin" ;
+                     :vestedPowerType "elected" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#RecepErdogan
+:RecepErdogan rdf:type owl:NamedIndividual ,
+                       :person ;
+              :holdsPosition :President ;
+              :leads :ErdoganAdministration ;
+              :isNamed "Recep Tayyip Erdoğan" ;
+              :wasBorn "26 February 1954" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#RouhaniAdministration
+:RouhaniAdministration rdf:type owl:NamedIndividual ,
+                                :regime ;
+                       :governs :Iran ;
+                       :operatesFromHQ :IranianPresidentialPalace ;
+                       :cameToPower "August 2013" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Russia
+:Russia rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :isLocatedIn :Asia ,
+                     :Europe ;
+        :isMemberOf :UnitedNations ;
+        :isNamed "Russian Federation" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SalilShetty
+:SalilShetty rdf:type owl:NamedIndividual ,
+                      :person ;
+             :holdsPosition :SecretaryGeneral ;
+             :leads :SalilShettyLeadership ;
+             :isNamed "Salil Shetty" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SalilShettyLeadership
+:SalilShettyLeadership rdf:type owl:NamedIndividual ,
+                                :regime ;
+                       :governs :AmnestyInternational ;
+                       :operatesFromHQ :AmnestyIntlUK .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SaudiArabia
+:SaudiArabia rdf:type owl:NamedIndividual ,
+                      :nationState ;
+             :inConflictWith :Iran ;
+             :isAllyOf :UnitedStates ;
+             :isLocatedIn :MiddleEast ;
+             :isMemberOf :OPEC ,
+                         :UnitedNations ;
+             :isNamed "Kingdom of Saudi Arabia" ;
+             :vestedPowerType "monarchy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SaudiRoyalFamily
+:SaudiRoyalFamily rdf:type owl:NamedIndividual ,
+                           :regime ;
+                  :governs :SaudiArabia .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SecretaryGeneral
+:SecretaryGeneral rdf:type owl:NamedIndividual ,
+                           :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Switzerland
+:Switzerland rdf:type owl:NamedIndividual ,
+                      :nationState ;
+             :isLocatedIn :Europe ;
+             :isMemberOf :UnitedNations ;
+             :partyTo :ParisClimateAccord .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Syria
+:Syria rdf:type owl:NamedIndividual ,
+                :nationState ;
+       :isLocatedIn :MiddleEast ;
+       :isMemberOf :ArabLeague ,
+                   :UnitedNations ;
+       :partyTo :declarationOfHumanRights ;
+       :isNamed "Syrian Arab Republic" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SyrianPresidentialPalace
+:SyrianPresidentialPalace rdf:type owl:NamedIndividual ,
+                                   :HQ ;
+                          :isLocatedIn :Damascus ;
+                          :isNamed "Presidential Palace, Damascus" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#SyrianWar
+:SyrianWar rdf:type owl:NamedIndividual ,
+                    :conflict ;
+           :hasAsAParty :ISIS ,
+                        :Syria ;
+           :overIssue :regimeChange ;
+           :isNamed "Syrian Civil War" ;
+           :startedOn "March 2011" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Tehran
+:Tehran rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :Iran .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#TheRoyalHashemiteCourt
+:TheRoyalHashemiteCourt rdf:type owl:NamedIndividual ,
+                                 :HQ ;
+                        :isLocatedIn :Amman ;
+                        :isNamed "al Maqar" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#TheresaMay
+:TheresaMay rdf:type owl:NamedIndividual ,
+                     :person ;
+            :holdsPosition :PrimeMinister ;
+            :leads :MayAdministration ;
+            :isNamed "Theresa Mary May" ;
+            :wasBorn "1 October 1956" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#TrumpAdministration
+:TrumpAdministration rdf:type owl:NamedIndividual ,
+                              :regime ;
+                     :governs :UnitedStates ;
+                     :operatesFromHQ :theWhiteHouse ;
+                     :cameToPower "January 2017" ;
+                     :isNamed "Adminstration of Donald Trump" ;
+                     :vestedPowerType "elected" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Turkey
+:Turkey rdf:type owl:NamedIndividual ,
+                 :nationState ;
+        :isLocatedIn :Europe ,
+                     :MiddleEast ;
+        :isMemberOf :UnitedNations ;
+        :partyTo :declarationOfHumanRights ;
+        :isNamed "The Republic of Turkey" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#TurkishPresidentialPalace
+:TurkishPresidentialPalace rdf:type owl:NamedIndividual ,
+                                    :HQ ;
+                           :isLocatedIn :Ankara ;
+                           :isNamed "Turkish Presidential Palace" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#UNAmbassador
+:UNAmbassador rdf:type owl:NamedIndividual ,
+                       :position .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#UNHeadquarters
+:UNHeadquarters rdf:type owl:NamedIndividual ,
+                         :HQ ;
+                :isLocatedIn :NewYork ;
+                :atAddress "New York, NY 10017, USA" ;
+                :atLatitude "40.7489° N" ;
+                :atLongitude "73.9680° W" ;
+                :isNamed "Headquarters of the United Nations" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#UnitedKingdom
+:UnitedKingdom rdf:type owl:NamedIndividual ,
+                        :nationState ;
+               :isLocatedIn :Europe ;
+               :isMemberOf :EuropeanUnion ,
+                           :UnitedNations ;
+               :partyTo :ParisClimateAccord ,
+                        :declarationOfHumanRights ;
+               :isNamed "The United Kingdom Great Britain and Northern Ireland" ;
+               :vestedPowerType "Constitutional Monarchy with Parliamentary Democracy" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#UnitedNations
+:UnitedNations rdf:type owl:NamedIndividual ,
+                        :internationalOrg ,
+                        :nonStateActor .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#UnitedStates
+:UnitedStates rdf:type owl:NamedIndividual ,
+                       :nationState ;
+              :isLocatedIn :theAmericas ;
+              :isMemberOf :UnitedNations ;
+              :partyTo :declarationOfHumanRights ;
+              :isNamed "United States of America" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#Vienna
+:Vienna rdf:type owl:NamedIndividual ,
+                 <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+        :isLocatedIn :Austria .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#VladimirPutin
+:VladimirPutin rdf:type owl:NamedIndividual ,
+                        :person ;
+               :leads :PutinAdministration ;
+               :isNamed "Vladimir Vladimirovich Putin" ;
+               :wasBorn "7 October 1952" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#WadiAraba
+:WadiAraba rdf:type owl:NamedIndividual ,
+                    <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+           :isLocatedIn :Jordan ;
+           :isNamed "Wadi Araba" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#WashingtonDC
+:WashingtonDC rdf:type owl:NamedIndividual ,
+                       <http://www.semanticweb.org/system/ontologies/2018/3/STG062#city> ;
+              :isLocatedIn :UnitedStates ;
+              :isNamed "Washington D.C." .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#declarationOfHumanRights
+:declarationOfHumanRights rdf:type owl:NamedIndividual ,
+                                   :multilateral ;
+                          :setsConvention :humanRights ;
+                          :wasRatifiedInCity :Paris ;
+                          :isNamed "Universal Declaration of Human Rights" ;
+                          :startedOn "December 1948" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#environmentalProtection
+:environmentalProtection rdf:type owl:NamedIndividual ,
+                                  :convention ;
+                         :isNamed "Environmental Protection" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#humanRights
+:humanRights rdf:type owl:NamedIndividual ,
+                      :convention ;
+             :isNamed "Human Rights" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#independence
+:independence rdf:type owl:NamedIndividual ,
+                       :issue ;
+              :isNamed "independence" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#land
+:land rdf:type owl:NamedIndividual ,
+               :issue ;
+      :isNamed "land" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#nuclearization
+:nuclearization rdf:type owl:NamedIndividual ,
+                         :issue .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#regimeChange
+:regimeChange rdf:type owl:NamedIndividual ,
+                       :issue ;
+              :isNamed "regimeChange" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#rulesOfWar
+:rulesOfWar rdf:type owl:NamedIndividual ,
+                     :convention ;
+            :isNamed "Rules in Time of War" .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#theAmericas
+:theAmericas rdf:type owl:NamedIndividual ,
+                      <http://www.semanticweb.org/system/ontologies/2018/3/STG062#region> .
+
+
+###  http://www.semanticweb.org/system/ontologies/2018/4/17141423-INSTG062#theWhiteHouse
+:theWhiteHouse rdf:type owl:NamedIndividual ,
+                        :HQ ;
+               :isLocatedIn :WashingtonDC ;
+               :atAddress """1600 Pennsylvania Avenue NW
+Washington, DC 20500""" ;
+               :atLatitude "38.8977° N" ;
+               :atLongitude "77.0365° W" ;
+               :isNamed "The White House" .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
